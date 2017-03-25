@@ -6,15 +6,35 @@ sys.path.append('../../telekinesis')
 import telekinesis
 import pygame
 
+
+class BulletContainer(telekinesis.gamecore.ContainerEntity):
+	def update(self):
+		super(BulletContainer, self).update()
+		bullet_boxes = [ bullet.bounding_box for bullet in self.entities ]
+		# print "debug bullets", len(self.entities)
+		for ent in [ ent for ent in self.parent.entities if isinstance(ent, CollidingEntity) ]:
+			index = ent.bounding_box.collidelist(bullet_boxes)
+			if index != -1:
+				ent.takeDamage(self.entities[index].damage)
+				self.removeEntity(self.entities[index])
+
+
+
 class SimpleGame(telekinesis.gamecore.GameContainer):
+	def __init__(self):
+		super(SimpleGame, self).__init__()
+		self.bullet_container = BulletContainer(parent=self)
 	def draw(self, screen):
 		screen.fill((0,0,0))
 		super(SimpleGame, self).draw(screen)
+	def update(self):
+		super(SimpleGame, self).update()
+		# print "debug", len(self.entities)
 
 
-class ShipEntity(telekinesis.graphics.ScreenEntity):
+class CollidingEntity(telekinesis.graphics.ScreenEntity):
 	def __init__(self, x=0, y=0, sx=0, sy=0, bounding_box=None, parent=None, filepath=None):
-		super(ShipEntity, self).__init__(x=x, y=y, parent=parent, filepath=filepath)
+		super(CollidingEntity, self).__init__(x=x, y=y, parent=parent, filepath=filepath)
 		self.bounding_box = bounding_box
 		self.bounding_box.x += x
 		self.bounding_box.y += y
@@ -28,24 +48,27 @@ class ShipEntity(telekinesis.graphics.ScreenEntity):
 
 
 
-class Dropship(ShipEntity):
+class Dropship(CollidingEntity):
 	def __init__(self, x=0, y=0, parent=None):
 		super(Dropship, self).__init__(x=x, y=y, parent=parent, bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png')
+		self.health = 25
+	def takeDamage(self, damage):
+		self.health -= damage
+		if self.health <= 0:
+			self.removeSelf()
 
 
-class PlayerBullet(telekinesis.graphics.ScreenEntity):
-	def __init__(self, x=0, y=0, sx=0, sy=0, parent=None):
-		super(PlayerBullet, self).__init__(x=x, y=y, parent=parent, filepath='player_bullet.png')
-		self.sx = sx
-		self.sy = sy
+class PlayerBullet(CollidingEntity):
+	def __init__(self, damage=5, *args, **kwargs):
+		super(PlayerBullet, self).__init__(bounding_box=pygame.Rect(8, 3, 4, 14), filepath='player_bullet.png', *args, **kwargs)
+		self.damage = damage
 	def update(self):
-		self.rect.x += self.sx
-		self.rect.y += self.sy
+		super(PlayerBullet, self).update()
 		game = self.parent.getGame()
 		if self.rect.x + self.rect.w < 0 or self.rect.x > game.sizeX or self.rect.y + self.rect.h < 0 or self.rect.y > game.sizeY:
 			self.removeSelf()
 
-class PlayerShip(ShipEntity):
+class PlayerShip(CollidingEntity):
 	def __init__(self, x=0, y=0, parent=None):
 		super(PlayerShip, self).__init__(x=x, y=y, parent=parent, bounding_box=pygame.Rect(3, 3, 34, 14), filepath='dropship.png')
 		self.reload = 0
@@ -90,7 +113,7 @@ class PlayerShip(ShipEntity):
 		if self.reload > 0:
 			self.reload -= 1
 		elif game.keystate[pygame.K_SPACE]:
-			self.parent.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-12))
+			game.bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-12))
 			self.reload = self.max_reload
 
 		super(PlayerShip, self).update()
