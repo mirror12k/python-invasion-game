@@ -31,7 +31,8 @@ class Entity(object):
 		pass
 	def removeSelf(self):
 		''' removes itself from the game engine '''
-		self.parent.removeEntity(self)
+		if self.parent is not None:
+			self.parent.removeEntity(self)
 	def __str__(self):
 		return str(type(self))
 
