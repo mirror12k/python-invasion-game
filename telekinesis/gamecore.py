@@ -48,17 +48,20 @@ class ContainerEntity(Entity):
 		self.entitiesToAdd.append(ent)
 		if ent.parent is not None:
 			ent.parent.removeEntity(ent)
-		ent.parent = self
+		# ent.parent = self
 	def removeEntity(self, ent):
 		self.entitiesToRemove.append(ent)
-		ent.parent = None
 	def updateContainer(self):
 		if len(self.entitiesToRemove) > 0:
+			for ent in self.entitiesToRemove:
+				ent.parent = None
 			self.entities = [ ent for ent in self.entities if ent not in self.entitiesToRemove ]
 			# for ent in self.entitiesToRemove:
 			# 	ent.parent = None
 			self.entitiesToRemove = []
 		if len(self.entitiesToAdd) > 0:
+			for ent in self.entitiesToAdd:
+				ent.parent = self
 			self.entities += self.entitiesToAdd
 			# for ent in self.entitiesToAdd:
 			# 	ent.parent = self
