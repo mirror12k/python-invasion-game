@@ -91,10 +91,11 @@ class ContainerEntity(Entity):
 
 class GameContainer(ContainerEntity):
 	''' the main game container which contains the entire game in it '''
-	def __init__(self, sizeX=640, sizeY=400):
+	def __init__(self, sizeX=640, sizeY=400, fps=60):
 		super(GameContainer, self).__init__()
 		self.sizeX = sizeX
 		self.sizeY = sizeY
+		self.fps = fps
 		self.showFPS = False
 		self.keystate = {}
 		for key in [
@@ -122,13 +123,10 @@ class GameContainer(ContainerEntity):
 	# 	self.eventHandler = 
 	def eventEnd(self):
 		pass
-	def run(self, fps=60):
-
-		self.fps = fps
-		
+	def run(self):		
 		total_start = time.time()
 		frames = 0
-		frame_time = 1.0 / fps
+		frame_time = 1.0 / self.fps
 		pygame.init()
 
 		self.font = pygame.font.SysFont("monospace", 15)
@@ -163,7 +161,7 @@ class GameContainer(ContainerEntity):
 
 			if self.showFPS:
 				frames += 1
-				if frames % fps == 0:
+				if frames % self.fps == 0:
 					print "fps:", int(frames / (time.time() - total_start))
 		self.eventEnd()
 

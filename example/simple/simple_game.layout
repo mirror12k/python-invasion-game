@@ -1,5 +1,15 @@
 
-game.addEntity(Dropship(x=20, y=40))
-game.addEntity(Dropship(x=60, y=40))
-game.addEntity(Dropship(x=100, y=40))
-game.addEntity(Dropship(x=40, y=90))
+game.addEntity(Dropship(x=480, y=-100, sy=2))
+game.addEntity(Dropship(x=440, y=-120, sy=2))
+game.addEntity(Dropship(x=520, y=-120, sy=2))
+game.addEntity(Dropship(x=480, y=-180, sy=2))
+
+
+DelayedSpawn([\
+	Dropship(x=40, y=-40, sy=4),\
+	Dropship(x=40, y=-80, sy=4),\
+	Dropship(x=40, y=-120, sy=4),\
+	Dropship(x=920, y=-40, sy=4),\
+	Dropship(x=920, y=-80, sy=4),\
+	Dropship(x=920, y=-120, sy=4)\
+], 2, parent=game)

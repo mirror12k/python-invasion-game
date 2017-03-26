@@ -5,7 +5,7 @@ import gamecore
 
 
 class Timer(gamecore.Entity):
-	def __init__(self, timeFrames=0, timeSeconds=None, callbacks=[], deleteOnTime=True, parent=None):
+	def __init__(self, callbacks, timeSeconds=None, timeFrames=0, deleteOnTime=True, parent=None):
 		super(Timer, self).__init__(parent)
 		if timeSeconds is not None:
 			self.timeFrames = int(parent.getGame().fps * timeSeconds)
@@ -24,6 +24,15 @@ class Timer(gamecore.Entity):
 				self.removeSelf()
 			else:
 				self.timer = self.timeFrames
+
+
+class DelayedSpawn(Timer):
+	def __init__(self, entities, timeSeconds=None, timeFrames=0, parent=None):
+		super(DelayedSpawn, self).__init__(callbacks=[self.spawn], timeSeconds=timeSeconds, timeFrames=timeFrames, deleteOnTime=True, parent=parent)
+		self.entities = entities
+	def spawn(self, timer):
+		for ent in self.entities:
+			self.parent.addEntity(ent)
 
 
 
@@ -46,7 +55,7 @@ class LayoutReader(object):
 				aargs.append(arg)
 			elif match.group(1) is not None:
 				expression = expression[len(match.group()):]
-				print "got kwarg:", match.group(1), expression
+				# print "got kwarg:", match.group(1), expression
 				expression, arg = self.evalExpression(expression)
 				kwargs[match.group(1)] = arg
 			else:
@@ -63,32 +72,56 @@ class LayoutReader(object):
 				expression = expression[len(match.group()):]
 			match = re.match(r'\A(?:([a-zA-Z_][a-zA-Z_0-9]*)\s*=\s*)', expression)
 
+	def evalExpressionList(self, expression):
+		results = []
+		match = re.match(r'\A(?:(\s*(?:,\s*)?\]))', expression)
+		while True:
+			if match is None:
+				expression, arg = self.evalExpression(expression)
+				results.append(arg)
+			else:
+				expression = expression[len(match.group()):]
+				return expression, results
+
+			match = re.match(r'\A(?:(\s*(?:,\s*)?\])|(\s*,\s*))', expression)
+			if match is None:
+				raise Exception("invalid expression list:", expression)
+			elif match.group(1) is not None:
+				expression = expression[len(match.group()):]
+				return expression, results
+			else:
+				expression = expression[len(match.group()):]
+			match = None
+
 
 
 
 
 
 	def evalExpression(self, expression):
-		match = re.match(r'\A(?:(-?\d+)|(".*")|([a-zA-Z_][a-zA-Z_0-9]*))', expression)
+		match = re.match(r'\A(?:(-?\d+)|(".*")|([a-zA-Z_][a-zA-Z_0-9]*)|(\[))', expression)
 		if match is None:
 			raise Exception("invalid expression: " + expression)
 		elif match.group(1) is not None:
 			expression = expression[len(match.group()):]
 			result = int(match.group(1))
-			print "got integer: ", result, expression
+			# print "got integer: ", result, expression
 		elif match.group(2) is not None:
 			expression = expression[len(match.group()):]
 			result = match.group(1)[1:-1]
-		else:
+		elif match.group(3) is not None:
 			expression = expression[len(match.group()):]
 			result = self.variables[match.group(3)]
-			print "got variable: ", result, expression
+			# print "got variable: ", result, expression
 			expression, result = self.evalExpressionMore(expression, result)
+		else:
+			expression = expression[len(match.group()):]
+			expression, result = self.evalExpressionList(expression)
 		return expression, result
 	def evalExpressionMore(self, expression, result):
 		match = re.match(r'\A(?:(\s*=\s*)|\.([a-zA-Z_][a-zA-Z_0-9]*)|(\())', expression)
 		if match is None:
-			print "got no more expression of:", expression
+			# print "got no more expression of:", expression
 			return expression, result
 		elif match.group(1) is not None:
 			key = result
@@ -98,12 +131,12 @@ class LayoutReader(object):
 			return expression, None
 		elif match.group(2) is not None:
 			key = match.group(2)
-			print "got attribute access:", result, key
+			# print "got attribute access:", result, key
 			result = getattr(result, key)
 			expression = expression[len(match.group()):]
 			return self.evalExpressionMore(expression, result)
 		else:
-			print "got variable call:", result
+			# print "got variable call:", result
 			expression = expression[len(match.group()):]
 			expression, args, kwargs = self.evalExpressionArgs(expression)
 			result = result(*args, **kwargs)
@@ -138,7 +171,7 @@ class LayoutReader(object):
 			if running_line != '':
 				processed_lines.append(running_line)
 
-			for line in lines:
+			for line in processed_lines:
 				self.evalStatement(line)
 				# entityClass, args = line.split('(', 1)
 				# args = args.rstrip(')')

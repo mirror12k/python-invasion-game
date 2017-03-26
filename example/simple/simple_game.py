@@ -22,7 +22,7 @@ class BulletContainer(telekinesis.gamecore.ContainerEntity):
 
 class SimpleGame(telekinesis.gamecore.GameContainer):
 	def __init__(self):
-		super(SimpleGame, self).__init__()
+		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
 		self.bullet_container = BulletContainer(parent=self)
 	def draw(self, screen):
 		screen.fill((0,0,0))
@@ -49,9 +49,9 @@ class CollidingEntity(telekinesis.graphics.ScreenEntity):
 
 
 class Dropship(CollidingEntity):
-	def __init__(self, x=0, y=0, parent=None):
-		super(Dropship, self).__init__(x=x, y=y, parent=parent, bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png')
-		self.health = 25
+	def __init__(self, *args, **kwargs):
+		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', *args, **kwargs)
+		self.health = 15
 	def takeDamage(self, damage):
 		self.health -= damage
 		if self.health <= 0:
@@ -123,6 +123,7 @@ class PlayerShip(CollidingEntity):
 game = SimpleGame()
 parser = telekinesis.logic.LayoutReader(game, {
 		'Dropship': Dropship,
+		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
 parser.fromFile('simple_game.layout')
 game.addEntity(PlayerShip())
