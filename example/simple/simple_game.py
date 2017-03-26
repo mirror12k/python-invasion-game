@@ -34,6 +34,8 @@ class EnemyBulletContainer(telekinesis.gamecore.ContainerEntity):
 class SimpleGame(telekinesis.gamecore.GameContainer):
 	def __init__(self):
 		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
+		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
+		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
 		self.player_bullet_container = PlayerBulletContainer(parent=self)
 		self.enemy_bullet_container = EnemyBulletContainer(parent=self)
 		self.player = PlayerShip(x=480, y=580, parent=self)
@@ -67,6 +69,7 @@ class CollidingEntity(telekinesis.graphics.ScreenEntity):
 		self.bounding_box.x = int(self.bounding_box_x)
 		self.bounding_box.y = int(self.bounding_box_y)
 
+
 class ShipEntity(CollidingEntity):
 	def __init__(self, health=1, max_reload=60, *args, **kwargs):
 		super(ShipEntity, self).__init__(*args, **kwargs)
@@ -87,20 +90,35 @@ class ShipEntity(CollidingEntity):
 	def fire(self):
 		self.reload = self.max_reload
 
+class EnemyShipEntity(ShipEntity):
+	def __init__(self, *args, **kwargs):
+		super(EnemyShipEntity, self).__init__(*args, **kwargs)
+		self.active = False
+
+	def update(self):
+		super(EnemyShipEntity, self).update()
+		game = self.parent.getGame()
+		if not self.active and self.bounding_box.colliderect(game.active_bounds):
+			self.active = True
+		if self.active and self.reload == 0:
+			self.fire()
+	def takeDamage(self, damage):
+		if not self.active:
+			# apply armor until ship is fully on screen
+			damage /= 4
+		super(EnemyShipEntity, self).takeDamage(damage)
+
+
 def calculate_adjusted_speed(x, y, speed):
 	c = (float(x) ** 2 + float(y) ** 2) ** 0.5
 	multiplier = float(speed) / c
 	return x * multiplier, y * multiplier
 
-class Dropship(ShipEntity):
+class Dropship(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', *args, **kwargs)
+		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', health=15, *args, **kwargs)
 
 class DropshipFiring(Dropship):
-	def update(self):
-		super(DropshipFiring, self).update()
-		if self.reload == 0:
-			self.fire()
 	def fire(self):
 		super(DropshipFiring, self).fire()
 		player = self.parent.getGame().player
@@ -133,13 +151,14 @@ class EnemyBullet(BulletEntity):
 class PlayerShip(ShipEntity):
 	def __init__(self, *args, **kwargs):
 		super(PlayerShip, self).__init__(bounding_box=pygame.Rect(3, 3, 34, 14), filepath='dropship.png', max_reload = 3, *args, **kwargs)
+		self.max_speed = 6
 	def update(self):
 		game = self.parent.getGame()
 
 		if game.keystate[pygame.K_LSHIFT]:
-			speed = 2
+			speed = self.max_speed / 2
 		else:
-			speed = 4
+			speed = self.max_speed
 
 
 		if game.keystate[pygame.K_a]:
@@ -177,7 +196,7 @@ class PlayerShip(ShipEntity):
 
 	def fire(self):
 		super(PlayerShip, self).fire()
-		game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-12))
+		game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-20))
 
 
 

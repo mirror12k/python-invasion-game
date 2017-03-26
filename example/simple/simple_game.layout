@@ -1,17 +1,64 @@
 
-game.addEntity(DropshipFiring(x=480, y=-100, sy=2))
-game.addEntity(DropshipFiring(x=440, y=-120, sy=2))
-game.addEntity(DropshipFiring(x=520, y=-120, sy=2))
-game.addEntity(DropshipFiring(x=480, y=-180, sy=2))
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 4, parent=game)
 
 
 DelayedSpawn([\
 	DropshipFiring(x=40, y=-40, sy=4),\
 	DropshipFiring(x=40, y=-80, sy=4),\
 	DropshipFiring(x=40, y=-120, sy=4),\
-], 5, parent=game)
+], 6, parent=game)
 DelayedSpawn([\
 	DropshipFiring(x=920, y=-40, sy=4),\
 	DropshipFiring(x=920, y=-80, sy=4),\
 	DropshipFiring(x=920, y=-120, sy=4),\
+], 8, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 8, parent=game)
+
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=40, y=-80, sy=4),\
+	DropshipFiring(x=40, y=-120, sy=4),\
 ], 10, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=920, y=-80, sy=4),\
+	DropshipFiring(x=920, y=-120, sy=4),\
+], 12, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 12, parent=game)
+
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=40, y=-80, sy=4),\
+	DropshipFiring(x=40, y=-120, sy=4),\
+], 14, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=920, y=-80, sy=4),\
+	DropshipFiring(x=920, y=-120, sy=4),\
+], 16, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 16, parent=game)
