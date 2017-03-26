@@ -119,13 +119,12 @@ class PlayerShip(CollidingEntity):
 		super(PlayerShip, self).update()
 
 
-parser = telekinesis.logic.LayoutReader({
-		'Dropship': Dropship,
-	})
 
 game = SimpleGame()
-for ent in parser.fromFile('simple_game.layout'):
-	game.addEntity(ent)
+parser = telekinesis.logic.LayoutReader(game, {
+		'Dropship': Dropship,
+	})
+parser.fromFile('simple_game.layout')
 game.addEntity(PlayerShip())
 game.run()
 
