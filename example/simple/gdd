@@ -1,0 +1,56 @@
+
+
+setting of the game:
+	alien invasion of earth
+		aliens are horrific humanoids piloting ships composed of hard carapace and carrying various colored crystals
+			alien technology is based around these crystals giving their ships abilities like teleportation, plasma firing, space compression, and shielding
+		protagonist is a test pilot for an super secret test fighter capable of answering the speed and firepower of the alien ships
+
+levels:
+	first response beach landing
+		protagonist is sent as a first response to the alien landing force which is gathering troops on the beaches of <>
+		protagonist catches the aliens by surprise, able to destroy enemy dropships and troop carriers as they are unloading
+
+		enemies:
+			dropships
+				busy offloading troops, they lack firepower but can occasionally fire a single shot
+				generic enemies filling up the level
+			light fighters
+				busy escorting the dropships, they fire in simple bursts
+				they fly quickly in groups and fire in various patterns
+			gunships
+				guarding the landing force, they teleport in and respond by firing large bursts of concentrated fire
+				they teleport in groups and act as a serious obstacle for the player
+			troop transports
+				transporting vital forces, they rarely fight, but can drop suppressive energy fields to impede the protagonist
+				the player is rewarded greatly in points for destroying ships, but they pose little threat
+			suppression crystals
+				small towers built on the beaches to act as AA for the alien forces, fire powerful beam weapons to break up enemy formations
+				lone towers present more challenges for the player to respond while busy with other enemies
+			boss??
+
+	night-time alien mountain base raid
+		following disastrous military engagements, the protagonist is sent to destroy an identified alien mothership
+		protagonist travels to a dangerous location filled with enemy forces to destroy a local control and operations ship
+
+		enemies:
+			medium fighters
+				sent to intercept the player
+				higher health than previous fighters and sporter larger firepower. primary enemies of the level
+			heavy suppression crystals
+				large center piece towers designed to defend large local areas, they fire large fields of bullets in all directions and occasional beam bursts
+				they appear mostly alone and challenge the player to quickly respond to their massive firepower
+			alien control ship (boss)
+				large sectioned ring ship rotating around a large yellow crystal
+			
+
+	ELO alien warp gate assault
+		in a last ditch effort to stop the aliens, command sends all remaining forces in a directed attack at the alien fleet
+		protagonist travels with a regiment of friendly ships to attack directly against the alien fleet in orbit with orders to destroy the warp ship that is teleporting the enemy forces to earth
+
+		enemies:
+			alien warp gate (boss)
+				a massive sectioned ring ship suspended around a giant blue crystal
+				constantly spawns enemy ships to attack the player
+
+

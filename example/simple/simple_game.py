@@ -108,7 +108,7 @@ class DropshipFiring(Dropship):
 		player = self.parent.getGame().player
 		px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
 		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
-		sx, sy = calculate_adjusted_speed(px - x, py - y, 3)
+		sx, sy = calculate_adjusted_speed(px - x, py - y, 2)
 		self.parent.getGame().enemy_bullet_container.addEntity(EnemyBullet(x=x - 10, y=y - 10, sx=sx, sy=sy))
 		
 
