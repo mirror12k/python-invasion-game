@@ -31,22 +31,6 @@ class EnemyBulletContainer(telekinesis.gamecore.ContainerEntity):
 
 
 
-class SimpleGame(telekinesis.gamecore.GameContainer):
-	def __init__(self):
-		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
-		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
-		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
-		self.player_bullet_container = PlayerBulletContainer(parent=self)
-		self.enemy_bullet_container = EnemyBulletContainer(parent=self)
-		self.player = PlayerShip(x=480, y=580, parent=self)
-	def draw(self, screen):
-		screen.fill((0,0,0))
-		super(SimpleGame, self).draw(screen)
-	def update(self):
-		super(SimpleGame, self).update()
-		# print "debug", len(self.entities)
-
-
 class CollidingEntity(telekinesis.graphics.ScreenEntity):
 	def __init__(self, x=0, y=0, sx=0, sy=0, bounding_box=None, parent=None, filepath=None):
 		super(CollidingEntity, self).__init__(x=x, y=y, parent=parent, filepath=filepath)
@@ -152,6 +136,7 @@ class PlayerShip(ShipEntity):
 	def __init__(self, *args, **kwargs):
 		super(PlayerShip, self).__init__(bounding_box=pygame.Rect(3, 3, 34, 14), filepath='dropship.png', max_reload = 3, *args, **kwargs)
 		self.max_speed = 6
+		self.invuln = 60
 	def update(self):
 		game = self.parent.getGame()
 
@@ -192,13 +177,46 @@ class PlayerShip(ShipEntity):
 		if game.keystate[pygame.K_SPACE] and self.reload == 0:
 			self.fire()
 
+		if self.invuln > 0:
+			self.invuln -= 1
+
 		super(PlayerShip, self).update()
+
+	def takeDamage(self, damage):
+		if self.parent and self.invuln == 0:
+			self.parent.getGame().on_player_death()
+
+	def draw(self, screen):
+		if self.invuln % 2 == 0:
+			super(PlayerShip, self).draw(screen)
 
 	def fire(self):
 		super(PlayerShip, self).fire()
 		game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-20))
 
 
+
+
+class SimpleGame(telekinesis.gamecore.GameContainer):
+	def __init__(self):
+		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
+		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
+		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
+		self.player_bullet_container = PlayerBulletContainer(parent=self)
+		self.enemy_bullet_container = EnemyBulletContainer(parent=self)
+		self.spawn_player()
+		# telekinesis.logic.Timer([], 1, parent=self)
+	def draw(self, screen):
+		screen.fill((0,0,0))
+		super(SimpleGame, self).draw(screen)
+	def update(self):
+		super(SimpleGame, self).update()
+		# print "debug", len(self.entities)
+	def spawn_player(self, *args):
+		self.player = PlayerShip(x=480, y=580, parent=self)
+	def on_player_death(self):
+		self.player.removeSelf()
+		telekinesis.logic.Timer([self.spawn_player], 1, parent=self)
 
 
 game = SimpleGame()
