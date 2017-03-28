@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import math
 
 sys.path.append('../../telekinesis')
 import telekinesis
@@ -15,7 +16,7 @@ class PlayerBulletContainer(telekinesis.gamecore.ContainerEntity):
 		for ent in [ ent for ent in self.parent.entities if isinstance(ent, CollidingEntity) ]:
 			index = ent.bounding_box.collidelist(bullet_boxes)
 			if index != -1:
-				ent.takeDamage(self.entities[index].damage)
+				ent.take_damage(self.entities[index].damage)
 				self.removeEntity(self.entities[index])
 
 class EnemyBulletContainer(telekinesis.gamecore.ContainerEntity):
@@ -26,7 +27,7 @@ class EnemyBulletContainer(telekinesis.gamecore.ContainerEntity):
 		player = self.parent.player
 		index = player.bounding_box.collidelist(bullet_boxes)
 		if index != -1:
-			player.takeDamage(self.entities[index].damage)
+			player.take_damage(self.entities[index].damage)
 			self.removeEntity(self.entities[index])
 
 
@@ -64,7 +65,7 @@ class ShipEntity(CollidingEntity):
 		super(ShipEntity, self).update()
 		if self.reload > 0:
 			self.reload -= 1
-	def takeDamage(self, damage):
+	def take_damage(self, damage):
 		self.health -= damage
 		if self.health <= 0:
 			self.onDeath()
@@ -86,12 +87,33 @@ class EnemyShipEntity(ShipEntity):
 			self.active = True
 		if self.active and self.reload == 0:
 			self.fire()
-	def takeDamage(self, damage):
+	def take_damage(self, damage):
 		if not self.active:
 			# apply armor until ship is fully on screen
 			damage /= 4
-		super(EnemyShipEntity, self).takeDamage(damage)
+		super(EnemyShipEntity, self).take_damage(damage)
+	def spawn_bullet_at_player(self, speed, angle_delta=0):
+		player = self.parent.getGame().player
+		px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
+		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+		angle = calculate_angle(px - x, py - y)
+		# print "debug angle:", angle
+		self.spawn_bullet(speed, angle + angle_delta)
+	def spawn_bullet(self, speed, angle):
+		sx, sy = angle_to_normal(angle)
+		# print "debug sx, sy:", sx, sy
+		sx = sx * float(speed)
+		sy = sy * float(speed)
+		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+		self.parent.getGame().enemy_bullet_container.addEntity(EnemyBullet(x=x-10, y=y-10, sx=sx, sy=sy))
 
+
+
+def calculate_angle(dx, dy):
+	return math.atan2(float(dy), float(dx))
+
+def angle_to_normal(angle):
+	return math.cos(angle), math.sin(angle)
 
 def calculate_adjusted_speed(x, y, speed):
 	c = (float(x) ** 2 + float(y) ** 2) ** 0.5
@@ -100,17 +122,22 @@ def calculate_adjusted_speed(x, y, speed):
 
 class Dropship(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', health=15, *args, **kwargs)
+		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', health=25, *args, **kwargs)
 
 class DropshipFiring(Dropship):
 	def fire(self):
 		super(DropshipFiring, self).fire()
-		player = self.parent.getGame().player
-		px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
-		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
-		sx, sy = calculate_adjusted_speed(px - x, py - y, 2)
-		self.parent.getGame().enemy_bullet_container.addEntity(EnemyBullet(x=x - 10, y=y - 10, sx=sx, sy=sy))
+		self.spawn_bullet_at_player(2)
 		
+
+class LightFighter(EnemyShipEntity):
+	def __init__(self, *args, **kwargs):
+		super(LightFighter, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='light_fighter_down.png', health=15, max_reload=30, *args, **kwargs)
+	def fire(self):
+		super(LightFighter, self).fire()
+		self.spawn_bullet_at_player(2)
+		self.spawn_bullet_at_player(2, math.radians(15.0))
+		self.spawn_bullet_at_player(2, math.radians(-15.0))
 
 class BulletEntity(CollidingEntity):
 	def __init__(self, damage=5, *args, **kwargs):
@@ -182,7 +209,7 @@ class PlayerShip(ShipEntity):
 
 		super(PlayerShip, self).update()
 
-	def takeDamage(self, damage):
+	def take_damage(self, damage):
 		if self.parent and self.invuln == 0:
 			self.parent.getGame().on_player_death()
 
@@ -223,6 +250,7 @@ game = SimpleGame()
 parser = telekinesis.logic.LayoutReader(game, {
 		'Dropship': Dropship,
 		'DropshipFiring': DropshipFiring,
+		'LightFighter': LightFighter,
 		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
 parser.fromFile('simple_game.layout')

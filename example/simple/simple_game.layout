@@ -94,3 +94,44 @@ DelayedSpawn([\
 	DropshipFiring(x=880, y=-120, sy=4),\
 ], 26, parent=game)
 
+
+
+
+DelayedSpawn([\
+	LightFighter(x=500, y=-40, sy=5),\
+	LightFighter(x=500, y=-80, sy=5),\
+	LightFighter(x=500, y=-120, sy=5),\
+], 30, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=5),\
+	LightFighter(x=300, y=-80, sy=5),\
+	LightFighter(x=300, y=-120, sy=5),\
+], 32, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=700, y=-40, sy=5),\
+	LightFighter(x=700, y=-80, sy=5),\
+	LightFighter(x=700, y=-120, sy=5),\
+], 32, parent=game)
+
+
+
+DelayedSpawn([\
+	LightFighter(x=500, y=-40, sy=5),\
+	LightFighter(x=500, y=-80, sy=5),\
+	LightFighter(x=500, y=-120, sy=5),\
+], 35, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=5),\
+	LightFighter(x=300, y=-80, sy=5),\
+	LightFighter(x=300, y=-120, sy=5),\
+], 37, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=700, y=-40, sy=5),\
+	LightFighter(x=700, y=-80, sy=5),\
+	LightFighter(x=700, y=-120, sy=5),\
+], 37, parent=game)
+
