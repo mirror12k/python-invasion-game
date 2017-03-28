@@ -135,3 +135,33 @@ DelayedSpawn([\
 	LightFighter(x=700, y=-120, sy=5),\
 ], 37, parent=game)
 
+
+
+
+DelayedSpawn([\
+	TroopTransport(x=500, y=-120, sy=2),\
+	TroopTransport(x=100, y=-160, sy=2),\
+	TroopTransport(x=900, y=-200, sy=2),\
+], 40, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=500, y=-140, sy=2),\
+	LightFighter(x=500, y=-40, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+], 50, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=300, y=-140, sy=2),\
+	LightFighter(x=300, y=-40, sy=2),\
+	LightFighter(x=200, y=-60, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+], 55, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=700, y=-140, sy=2),\
+	LightFighter(x=700, y=-40, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+	LightFighter(x=800, y=-60, sy=2),\
+], 60, parent=game)
+

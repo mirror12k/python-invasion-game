@@ -2,6 +2,7 @@
 
 import sys
 import math
+import random
 
 sys.path.append('../../telekinesis')
 import telekinesis
@@ -54,6 +55,39 @@ class CollidingEntity(telekinesis.graphics.ScreenEntity):
 		self.bounding_box.x = int(self.bounding_box_x)
 		self.bounding_box.y = int(self.bounding_box_y)
 
+class BulletEntity(CollidingEntity):
+	def __init__(self, damage=5, expires=None, *args, **kwargs):
+		super(BulletEntity, self).__init__(*args, **kwargs)
+		self.damage = damage
+		self.expires = expires
+	def update(self):
+		super(BulletEntity, self).update()
+		game = self.parent.getGame()
+		if self.rect.x + self.rect.w < 0 or self.rect.x > game.sizeX or self.rect.y + self.rect.h < 0 or self.rect.y > game.sizeY:
+			self.removeSelf()
+		elif self.expires is not None:
+			if self.expires == 0:
+				self.removeSelf()
+			else:
+				self.expires -= 1
+
+class PlayerBullet(BulletEntity):
+	def __init__(self, *args, **kwargs):
+		super(PlayerBullet, self).__init__(bounding_box=pygame.Rect(8, 3, 4, 14), filepath='player_bullet.png', *args, **kwargs)
+
+class EnemyBullet(BulletEntity):
+	def __init__(self, *args, **kwargs):
+		super(EnemyBullet, self).__init__(bounding_box=pygame.Rect(5, 5, 10, 10), filepath='enemy_bullet_red.png', *args, **kwargs)
+class EnemyBulletBlue(BulletEntity):
+	def __init__(self, *args, **kwargs):
+		super(EnemyBulletBlue, self).__init__(bounding_box=pygame.Rect(13, 13, 14, 14), filepath='enemy_bullet_blue.png', *args, **kwargs)
+	def update(self):
+		super(EnemyBulletBlue, self).update()
+		self.sx *= 0.95
+		self.sy *= 0.95
+
+
+
 
 class ShipEntity(CollidingEntity):
 	def __init__(self, health=1, max_reload=60, *args, **kwargs):
@@ -92,20 +126,20 @@ class EnemyShipEntity(ShipEntity):
 			# apply armor until ship is fully on screen
 			damage /= 4
 		super(EnemyShipEntity, self).take_damage(damage)
-	def spawn_bullet_at_player(self, speed, angle_delta=0):
+	def spawn_bullet_at_player(self, speed, angle_delta=0, *aargs, **kwargs):
 		player = self.parent.getGame().player
 		px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
 		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
 		angle = calculate_angle(px - x, py - y)
 		# print "debug angle:", angle
-		self.spawn_bullet(speed, angle + angle_delta)
-	def spawn_bullet(self, speed, angle):
+		self.spawn_bullet(speed, angle + angle_delta, *aargs, **kwargs)
+	def spawn_bullet(self, speed, angle, expires=None, bullet_type=EnemyBullet):
 		sx, sy = angle_to_normal(angle)
 		# print "debug sx, sy:", sx, sy
 		sx = sx * float(speed)
 		sy = sy * float(speed)
 		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
-		self.parent.getGame().enemy_bullet_container.addEntity(EnemyBullet(x=x-10, y=y-10, sx=sx, sy=sy))
+		self.parent.getGame().enemy_bullet_container.addEntity(bullet_type(x=x-10, y=y-10, sx=sx, sy=sy, expires=expires))
 
 
 
@@ -132,30 +166,25 @@ class DropshipFiring(Dropship):
 
 class LightFighter(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(LightFighter, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='light_fighter_down.png', health=15, max_reload=30, *args, **kwargs)
+		super(LightFighter, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='light_fighter_down.png', health=15, max_reload=60, *args, **kwargs)
 	def fire(self):
 		super(LightFighter, self).fire()
-		self.spawn_bullet_at_player(2)
-		self.spawn_bullet_at_player(2, math.radians(15.0))
-		self.spawn_bullet_at_player(2, math.radians(-15.0))
+		self.spawn_bullet_at_player(4)
+		self.spawn_bullet_at_player(4, math.radians(15.0))
+		self.spawn_bullet_at_player(4, math.radians(-15.0))
 
-class BulletEntity(CollidingEntity):
-	def __init__(self, damage=5, *args, **kwargs):
-		super(BulletEntity, self).__init__(*args, **kwargs)
-		self.damage = damage
-	def update(self):
-		super(BulletEntity, self).update()
-		game = self.parent.getGame()
-		if self.rect.x + self.rect.w < 0 or self.rect.x > game.sizeX or self.rect.y + self.rect.h < 0 or self.rect.y > game.sizeY:
-			self.removeSelf()
-
-class PlayerBullet(BulletEntity):
+class TroopTransport(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(PlayerBullet, self).__init__(bounding_box=pygame.Rect(8, 3, 4, 14), filepath='player_bullet.png', *args, **kwargs)
+		super(TroopTransport, self).__init__(
+			bounding_box=pygame.Rect(3, 23, 34, 14),
+			filepath='troop_transport_down.png',
+			health=100,
+			max_reload=4,
+			*args, **kwargs)
+	def fire(self):
+		super(TroopTransport, self).fire()
+		self.spawn_bullet(random.randint(5, 10), math.radians(random.randint(0, 360)), expires=300+random.randint(0, 120), bullet_type=EnemyBulletBlue)
 
-class EnemyBullet(BulletEntity):
-	def __init__(self, *args, **kwargs):
-		super(EnemyBullet, self).__init__(bounding_box=pygame.Rect(5, 5, 10, 10), filepath='enemy_bullet_red.png', *args, **kwargs)
 
 
 
@@ -251,6 +280,7 @@ parser = telekinesis.logic.LayoutReader(game, {
 		'Dropship': Dropship,
 		'DropshipFiring': DropshipFiring,
 		'LightFighter': LightFighter,
+		'TroopTransport': TroopTransport,
 		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
 parser.fromFile('simple_game.layout')
