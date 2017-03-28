@@ -4,51 +4,85 @@ setting of the game:
 	alien invasion of earth
 		aliens are horrific humanoids piloting ships composed of hard carapace and carrying various colored crystals
 			alien technology is based around these crystals giving their ships abilities like teleportation, plasma firing, space compression, and shielding
+			aliens have a brutal "raze the land" approach to fighting
+			they have no concept of camouflage for unknown reasons, instead placing their defenses in obvious and highly visible locations
 		protagonist is a test pilot for an super secret test fighter capable of answering the speed and firepower of the alien ships
 
 levels:
-	first response beach landing
+	first response against beach landing
 		protagonist is sent as a first response to the alien landing force which is gathering troops on the beaches of <>
 		protagonist catches the aliens by surprise, able to destroy enemy dropships and troop carriers as they are unloading
 
 		enemies:
 			dropships
+				equipped with small teleporters and compressed space-time to transport troops and small equipment
 				busy offloading troops, they lack firepower but can occasionally fire a single shot
 				generic enemies filling up the level
+
 			light fighters
+				'W' shaped ships designed for fast attack on enemy light craft
+
 				busy escorting the dropships, they fire in simple bursts
 				they fly quickly in groups and fire in various patterns
+
 			gunships
+				small crescent shaped ships with a levitating red crystal in the center which they use to fire
+				used for close-range support for ground forces
+
 				guarding the landing force, they teleport in and respond by firing large bursts of concentrated fire
 				they teleport in groups and act as a serious obstacle for the player
+
 			troop transports
-				transporting vital forces, they rarely fight, but can drop suppressive energy fields to impede the protagonist
+				large bulky ships carrying many spacetime crystals to teleport and transport entire platoons of troops or heavy equipment
+				transporting vital forces to the beach, they can drop suppressive energy fields to impede the protagonist
 				the player is rewarded greatly in points for destroying ships, but they pose little threat
-			suppression crystals
+
+			light suppression crystals
 				small towers built on the beaches to act as AA for the alien forces, fire powerful beam weapons to break up enemy formations
-				lone towers present more challenges for the player to respond while busy with other enemies
+				lone towers present challenges for the player to respond while busy with other enemies
+
 			boss??
 
-	night-time alien mountain base raid
-		following disastrous military engagements, the protagonist is sent to destroy an identified alien mothership
-		protagonist travels to a dangerous location filled with enemy forces to destroy a local control and operations ship
+	night-time raid on an alien mountain base
+		following disastrous military engagements, the protagonist is sent to destroy an identified alien mothership in order to slow alien progress
+		the protagonist travels to a dangerous location filled with enemy forces to destroy a local control and operations ship
 
 		enemies:
+			light fighters
 			medium fighters
+				crescent shaped ships, like manta rays
 				sent to intercept the player
-				higher health than previous fighters and sporter larger firepower. primary enemies of the level
+				higher health than previous fighters and sporting larger firepower
+				primary enemies of the level
+
+			corvette
+				medium sized ships built of two arched parts levitating around a red central crystal, like a sideways eye
+				normally used to annihilate entrenched ground forces, they are weak at fighting agile air targets
+
+				escorting the medium fighters in formations, they can fire large salvos of directed beams as well as suppressive bullets
+				the player is rewarded well for destroying these dangerous ships
+
+			light suppression crystals
 			heavy suppression crystals
+				a medium sized crystal with a few frills circling around it
 				large center piece towers designed to defend large local areas, they fire large fields of bullets in all directions and occasional beam bursts
 				they appear mostly alone and challenge the player to quickly respond to their massive firepower
-			alien control ship (boss)
+
+			alien heavy control ship (boss)
 				large sectioned ring ship rotating around a large yellow crystal
+				6 large sections, like flower petals, spin around and carry gun turrets that relentlessly fire at the player
+				these sections block damage to the control crystal until they are individually destroyed
+				destroying the center crystal destroys the entire control ship
 			
 
-	ELO alien warp gate assault
+	ELO direct assault against alien warp gate
 		in a last ditch effort to stop the aliens, command sends all remaining forces in a directed attack at the alien fleet
 		protagonist travels with a regiment of friendly ships to attack directly against the alien fleet in orbit with orders to destroy the warp ship that is teleporting the enemy forces to earth
 
 		enemies:
+			medium control ship
+				similar to the heavy control ship, but smaller
+				they command the local forces of the fleet
 			alien warp gate (boss)
 				a massive sectioned ring ship suspended around a giant blue crystal
 				constantly spawns enemy ships to attack the player
