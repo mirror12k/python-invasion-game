@@ -4,7 +4,7 @@ import sys
 import math
 import random
 
-sys.path.append('../../telekinesis')
+sys.path.append('../telekinesis')
 import telekinesis
 import pygame
 
@@ -290,9 +290,9 @@ class DebugPrinter(telekinesis.gamecore.Entity):
 
 
 
-class SimpleGame(telekinesis.gamecore.GameContainer):
+class InvasionGameContainer(telekinesis.gamecore.GameContainer):
 	def __init__(self):
-		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
+		super(InvasionGameContainer, self).__init__(sizeX=1000, sizeY=640)
 		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
 		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
 		self.out_of_bounds = pygame.Rect(-200, -200, self.sizeX + 200, self.sizeY + 200)
@@ -302,9 +302,9 @@ class SimpleGame(telekinesis.gamecore.GameContainer):
 		# telekinesis.logic.Timer([], 1, parent=self)
 	def draw(self, screen):
 		screen.fill((0,0,0))
-		super(SimpleGame, self).draw(screen)
+		super(InvasionGameContainer, self).draw(screen)
 	# def update(self):
-		# super(SimpleGame, self).update()
+		# super(InvasionGameContainer, self).update()
 	def spawn_player(self, *args):
 		self.player = PlayerShip(x=480, y=580, parent=self)
 	def on_player_death(self):
@@ -312,7 +312,7 @@ class SimpleGame(telekinesis.gamecore.GameContainer):
 		telekinesis.logic.Timer([self.spawn_player], 1, parent=self)
 
 
-game = SimpleGame()
+game = InvasionGameContainer()
 parser = telekinesis.logic.LayoutReader(game, {
 		'Dropship': Dropship,
 		'DropshipFiring': DropshipFiring,
@@ -320,7 +320,7 @@ parser = telekinesis.logic.LayoutReader(game, {
 		'TroopTransport': TroopTransport,
 		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
-parser.fromFile('simple_game.layout')
+parser.fromFile('level1.layout')
 game.addEntity(DebugPrinter())
 game.run()
 
