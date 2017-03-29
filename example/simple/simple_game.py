@@ -63,7 +63,7 @@ class BulletEntity(CollidingEntity):
 	def update(self):
 		super(BulletEntity, self).update()
 		game = self.parent.getGame()
-		if self.rect.x + self.rect.w < 0 or self.rect.x > game.sizeX or self.rect.y + self.rect.h < 0 or self.rect.y > game.sizeY:
+		if not self.rect.colliderect(game.screen_bounds):
 			self.removeSelf()
 		elif self.expires is not None:
 			if self.expires == 0:
@@ -121,6 +121,8 @@ class EnemyShipEntity(ShipEntity):
 			self.active = True
 		if self.active and self.reload == 0:
 			self.fire()
+		if not self.rect.colliderect(game.out_of_bounds):
+			self.removeSelf()
 	def take_damage(self, damage):
 		if not self.active:
 			# apply armor until ship is fully on screen
@@ -258,6 +260,7 @@ class SimpleGame(telekinesis.gamecore.GameContainer):
 		super(SimpleGame, self).__init__(sizeX=1000, sizeY=640)
 		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
 		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
+		self.out_of_bounds = pygame.Rect(-200, -200, self.sizeX + 200, self.sizeY + 200)
 		self.player_bullet_container = PlayerBulletContainer(parent=self)
 		self.enemy_bullet_container = EnemyBulletContainer(parent=self)
 		self.spawn_player()
