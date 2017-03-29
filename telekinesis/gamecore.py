@@ -134,6 +134,7 @@ class GameContainer(ContainerEntity):
 		pygame.init()
 
 		self.font = pygame.font.SysFont("monospace", 15)
+		self.real_fps = 0
 
 
 		size = self.sizeX, self.sizeY
@@ -163,10 +164,11 @@ class GameContainer(ContainerEntity):
 			if time_diff < frame_time:
 				time.sleep(frame_time - time_diff)
 
-			if self.showFPS:
-				frames += 1
-				if frames % self.fps == 0:
-					print "fps:", int(frames / (time.time() - total_start))
+			frames += 1
+			if frames % self.fps == 0:
+				self.real_fps = int(frames / (time.time() - total_start))
+				if self.showFPS:
+					print "fps:", self.real_fps
 		self.eventEnd()
 
 

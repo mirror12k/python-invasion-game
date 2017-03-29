@@ -158,7 +158,11 @@ def calculate_adjusted_speed(x, y, speed):
 
 class Dropship(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(Dropship, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='dropship_down.png', health=25, *args, **kwargs)
+		super(Dropship, self).__init__(
+			bounding_box=pygame.Rect(3, 23, 34, 14),
+			filepath='dropship_down.png',
+			health=25,
+			*args, **kwargs)
 
 class DropshipFiring(Dropship):
 	def fire(self):
@@ -168,7 +172,13 @@ class DropshipFiring(Dropship):
 
 class LightFighter(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(LightFighter, self).__init__(bounding_box=pygame.Rect(3, 23, 34, 14), filepath='light_fighter_down.png', health=15, max_reload=60, *args, **kwargs)
+		super(LightFighter, self).__init__(
+			bounding_box=pygame.Rect(3, 23, 34, 14),
+			filepath='light_fighter_down.png',
+			health=15,
+			max_reload=60,
+			*args, **kwargs)
+
 	def fire(self):
 		super(LightFighter, self).fire()
 		self.spawn_bullet_at_player(4)
@@ -183,6 +193,7 @@ class TroopTransport(EnemyShipEntity):
 			health=100,
 			max_reload=4,
 			*args, **kwargs)
+
 	def fire(self):
 		super(TroopTransport, self).fire()
 		self.spawn_bullet(random.randint(5, 10), math.radians(random.randint(0, 360)), expires=300+random.randint(0, 120), bullet_type=EnemyBulletBlue)
@@ -192,7 +203,12 @@ class TroopTransport(EnemyShipEntity):
 
 class PlayerShip(ShipEntity):
 	def __init__(self, *args, **kwargs):
-		super(PlayerShip, self).__init__(bounding_box=pygame.Rect(3, 3, 34, 14), filepath='dropship.png', max_reload = 3, *args, **kwargs)
+		super(PlayerShip, self).__init__(
+			bounding_box=pygame.Rect(3, 3, 34, 14),
+			filepath='dropship.png',
+			max_reload = 3,
+			*args, **kwargs)
+
 		self.max_speed = 6
 		self.invuln = 60
 	def update(self):
@@ -254,6 +270,20 @@ class PlayerShip(ShipEntity):
 
 
 
+class DebugPrinter(telekinesis.gamecore.Entity):
+	def draw(self, screen):
+			game = self.parent.getGame()
+			entity_count = len(game.entities)
+			bullet_count = len(game.enemy_bullet_container.entities) + len(game.player_bullet_container.entities)
+			debug_text1 = "fps: {}".format(game.real_fps)
+			debug_text2 = "entities: {} ({} bullets)".format(entity_count, bullet_count)
+			debug_text1 = game.font.render(debug_text1, 1, (255,255,0))
+			debug_text2 = game.font.render(debug_text2, 1, (255,255,0))
+			screen.blit(debug_text1, (4,4))
+			screen.blit(debug_text2, (4,24))
+
+
+
 
 class SimpleGame(telekinesis.gamecore.GameContainer):
 	def __init__(self):
@@ -268,9 +298,8 @@ class SimpleGame(telekinesis.gamecore.GameContainer):
 	def draw(self, screen):
 		screen.fill((0,0,0))
 		super(SimpleGame, self).draw(screen)
-	def update(self):
-		super(SimpleGame, self).update()
-		# print "debug", len(self.entities)
+	# def update(self):
+		# super(SimpleGame, self).update()
 	def spawn_player(self, *args):
 		self.player = PlayerShip(x=480, y=580, parent=self)
 	def on_player_death(self):
@@ -287,5 +316,6 @@ parser = telekinesis.logic.LayoutReader(game, {
 		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
 parser.fromFile('simple_game.layout')
+game.addEntity(DebugPrinter())
 game.run()
 
