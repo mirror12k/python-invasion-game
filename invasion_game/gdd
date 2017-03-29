@@ -8,6 +8,40 @@ setting of the game:
 			they have no concept of camouflage for unknown reasons, instead placing their defenses in obvious and highly visible locations
 		protagonist is a test pilot for an super secret test fighter capable of answering the speed and firepower of the alien ships
 
+graphics:
+	basic 8 bit graphics
+	shove as many particle effects as the framerate will accept
+		particle effects on bullets (bullets spawning, bullets flying, bullets expiring)
+		particle effects on destruction of ships (fire, junk, sparks)
+		particle effects on bullet impacts against enemies
+
+	mostly static graphics for ships
+		a few animations which will be coded seperately for larger ships
+		animated particles
+	scrolling background
+		either tiled or single piece
+		it should scroll slowly to allow smaller backgrounds and more parallax effects
+
+mechanics:
+	2d top-down shoot-em-up
+	player pilots a small ship with 1 health and a very small hitbox
+	player has two modes of flight, fast and focused
+		fast is the default and provides a wider fire pattern and small homing missiles launched at the nearest enemies
+		focused is enabled by holding the shift key and focuses the fire pattern to all forward fire with a havled move speed
+			focused does slightly more damage but is limited by it's purely forward firing
+	enemies are basic ships with rectagonal collision boxes which can fly in any direction, but primarily down
+		they can fire bullets or lasers
+			special ships can teleport bullets anywhere they like
+			special ships will be designed with sections, requiring sectioned sprites and sectioned collision boxes
+		enemies have 4x armor until they become active on the screen
+			this is to discourage the player from straight camping the screen edges
+		enemies can't fire off-screen
+			that would be unfair to players
+	should have micro-timeouts to streamline gameplay
+		when all enemies are cleared in a wave, the next wave starts immediately
+		if the enemies aren't cleared, the next wave starts when the timer timeouts
+
+
 levels:
 	first response against beach landing
 		protagonist is sent as a first response to the alien landing force which is gathering troops on the beaches of <>
