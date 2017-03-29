@@ -46,10 +46,20 @@ class CollidingEntity(telekinesis.graphics.ScreenEntity):
 		self.bounding_box_x = float(self.bounding_box.x)
 		self.bounding_box_y = float(self.bounding_box.y)
 	def update(self):
-		self.x += float(self.sx)
-		self.y += float(self.sy)
-		self.bounding_box_x += float(self.sx)
-		self.bounding_box_y += float(self.sy)
+		self.move(self.sx, self.sy)
+		# self.x += float(self.sx)
+		# self.y += float(self.sy)
+		# self.bounding_box_x += float(self.sx)
+		# self.bounding_box_y += float(self.sy)
+		# self.rect.x = int(self.x)
+		# self.rect.y = int(self.y)
+		# self.bounding_box.x = int(self.bounding_box_x)
+		# self.bounding_box.y = int(self.bounding_box_y)
+	def move(self, x=0, y=0):
+		self.x += float(x)
+		self.y += float(y)
+		self.bounding_box_x += float(x)
+		self.bounding_box_y += float(y)
 		self.rect.x = int(self.x)
 		self.rect.y = int(self.y)
 		self.bounding_box.x = int(self.bounding_box_x)
@@ -255,6 +265,21 @@ class PlayerShip(ShipEntity):
 			self.invuln -= 1
 
 		super(PlayerShip, self).update()
+
+		if self.bounding_box.x < 0:
+			self.move(0 - self.bounding_box.x, 0)
+			self.sx = 0.0
+		elif self.bounding_box.x + self.bounding_box.w > game.screen_bounds.w:
+			self.move(game.screen_bounds.w - (self.bounding_box.x + self.bounding_box.w), 0)
+			self.sx = 0.0
+
+		if self.bounding_box.y < 0:
+			self.move(0, 0 - self.bounding_box.y)
+			self.sy = 0.0
+		elif self.bounding_box.y + self.bounding_box.h > game.screen_bounds.h:
+			self.move(0, game.screen_bounds.h - (self.bounding_box.y + self.bounding_box.h))
+			self.sy = 0.0
+
 
 	def take_damage(self, damage):
 		if self.parent and self.invuln == 0:
