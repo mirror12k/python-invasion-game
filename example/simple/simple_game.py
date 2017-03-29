@@ -249,7 +249,7 @@ class PlayerShip(ShipEntity):
 				self.sy -= 2
 
 		if game.keystate[pygame.K_SPACE] and self.reload == 0:
-			self.fire()
+			self.fire(concentrated=game.keystate[pygame.K_LSHIFT])
 
 		if self.invuln > 0:
 			self.invuln -= 1
@@ -264,9 +264,14 @@ class PlayerShip(ShipEntity):
 		if self.invuln % 2 == 0:
 			super(PlayerShip, self).draw(screen)
 
-	def fire(self):
+	def fire(self, concentrated):
 		super(PlayerShip, self).fire()
-		game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 10, y=self.rect.y - 20, sy=-20))
+		if concentrated:
+			game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 15, y=self.rect.y - 25, sy=-20))
+			game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 5, y=self.rect.y - 15, sy=-20))
+		else:
+			game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 - 25, y=self.rect.y - 10, sy=-20))
+			game.player_bullet_container.addEntity(PlayerBullet(x=self.rect.x + self.rect.w / 2 + 5, y=self.rect.y - 10, sy=-20))
 
 
 
