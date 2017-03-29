@@ -161,10 +161,11 @@ def calculate_angle(dx, dy):
 def angle_to_normal(angle):
 	return math.cos(angle), math.sin(angle)
 
-def calculate_adjusted_speed(x, y, speed):
-	c = (float(x) ** 2 + float(y) ** 2) ** 0.5
-	multiplier = float(speed) / c
-	return x * multiplier, y * multiplier
+def distance_point_to_point(p0, p1):
+	return ((p1[0] - p0[0]) ** 2 + (p1[1] - p0[1]) ** 2) ** 0.5
+
+def distance_point_to_line(l0, l1, p):
+	return abs((l1[1] - l0[1]) * p[0] - (l1[0] - l0[0]) * p[1] + l1[0] * l0[1] - l1[1] * l0[0]) / distance_point_to_point(l0, l1)
 
 class Dropship(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
@@ -208,6 +209,72 @@ class TroopTransport(EnemyShipEntity):
 		super(TroopTransport, self).fire()
 		self.spawn_bullet(random.randint(5, 10), math.radians(random.randint(0, 360)), expires=300+random.randint(0, 120), bullet_type=EnemyBulletBlue)
 
+
+class LightSuppressionCrystal(EnemyShipEntity):
+	def __init__(self, *args, **kwargs):
+		super(LightSuppressionCrystal, self).__init__(
+			bounding_box=pygame.Rect(4, 4, 10, 10),
+			filepath='dropship_down.png',
+			health=150,
+			max_reload=240,
+			*args, **kwargs)
+		self.firing_laser = 0
+		self.laser_target = None
+
+		self.charge_duration = 30
+		self.laser_duration = 200
+
+		self.charging_laser = 0
+		self.firing_laser = 0
+	def fire(self):
+		super(LightSuppressionCrystal, self).fire()
+		self.fire_laser_at_player()
+
+	def fire_laser_at_player(self, angle_delta=0):
+		player = self.parent.getGame().player
+		px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
+		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+		angle = calculate_angle(px - x, py - y)
+		self.fire_laser(angle + angle_delta)
+
+	def fire_laser(self, angle):
+		nx, ny = angle_to_normal(angle)
+		x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+		self.laser_target = (x + nx * 1000, y + ny * 1000)
+		self.charging_laser = self.charge_duration
+
+	def move(self, x=0, y=0):
+		super(LightSuppressionCrystal, self).move(x,y)
+		if self.laser_target is not None:
+			self.laser_target = (self.laser_target[0] + x, self.laser_target[1] + y)
+
+	def update(self):
+		super(LightSuppressionCrystal, self).update()
+		if self.charging_laser > 0:
+			self.charging_laser -= 1
+			if self.charging_laser == 0:
+				self.firing_laser = self.laser_duration
+		if self.firing_laser > 0:
+			self.firing_laser -= 1
+			x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+			player = self.parent.getGame().player
+			px, py = player.rect.x + player.rect.w / 2, player.rect.y + player.rect.h / 2
+			dist = distance_point_to_line((x,y), self.laser_target, (px, py))
+			if dist <= 10:
+				player.take_damage(1)
+
+
+	def draw(self, screen):
+		if self.charging_laser:
+			x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+			pygame.draw.line(screen, (255,0,0), (x, y), self.laser_target, 1)
+		if self.firing_laser:
+			x, y = self.rect.x + self.rect.w / 2, self.rect.y + self.rect.h / 2
+			pygame.draw.line(screen, (255,255,255), (x, y), self.laser_target, 21)
+			pygame.draw.line(screen, (255,128,128), (x, y), self.laser_target, 15)
+			pygame.draw.line(screen, (255,0,0), (x, y), self.laser_target, 11)
+			pygame.draw.line(screen, (255,64,64), (x, y), self.laser_target, 5)
+		super(LightSuppressionCrystal, self).draw(screen)
 
 
 
@@ -343,6 +410,7 @@ parser = telekinesis.logic.LayoutReader(game, {
 		'DropshipFiring': DropshipFiring,
 		'LightFighter': LightFighter,
 		'TroopTransport': TroopTransport,
+		'LightSuppressionCrystal': LightSuppressionCrystal,
 		'DelayedSpawn': telekinesis.logic.DelayedSpawn,
 	})
 parser.fromFile('level1.layout')
