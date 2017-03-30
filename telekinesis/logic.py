@@ -99,19 +99,23 @@ class LayoutReader(object):
 
 
 	def evalExpression(self, expression):
-		match = re.match(r'\A(?:(-?\d+)|(".*")|([a-zA-Z_][a-zA-Z_0-9]*)|(\[))', expression)
+		match = re.match(r'\A(?:(-?\d+\.\d+)|(-?\d+)|(".*")|([a-zA-Z_][a-zA-Z_0-9]*)|(\[))', expression)
 		if match is None:
 			raise Exception("invalid expression: " + expression)
 		elif match.group(1) is not None:
 			expression = expression[len(match.group()):]
-			result = int(match.group(1))
+			result = float(match.group(1))
 			# print "got integer: ", result, expression
 		elif match.group(2) is not None:
 			expression = expression[len(match.group()):]
-			result = match.group(1)[1:-1]
+			result = int(match.group(2))
+			# print "got integer: ", result, expression
 		elif match.group(3) is not None:
 			expression = expression[len(match.group()):]
-			result = self.variables[match.group(3)]
+			result = match.group(3)[1:-1]
+		elif match.group(4) is not None:
+			expression = expression[len(match.group()):]
+			result = self.variables[match.group(4)]
 			# print "got variable: ", result, expression
 			expression, result = self.evalExpressionMore(expression, result)
 		else:

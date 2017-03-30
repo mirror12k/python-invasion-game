@@ -1,171 +1,218 @@
 
-# DelayedSpawn([\
-# 	Dropship(x=480, y=-100, sy=2),\
-# 	Dropship(x=440, y=-120, sy=2),\
-# 	Dropship(x=520, y=-120, sy=2),\
-# 	Dropship(x=480, y=-180, sy=2),\
-# ], 4, parent=game)
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 4, parent=game)
 
-# DelayedSpawn([\
-# 	Dropship(x=680, y=-100, sy=2),\
-# 	Dropship(x=640, y=-120, sy=2),\
-# 	Dropship(x=720, y=-120, sy=2),\
-# 	Dropship(x=680, y=-180, sy=2),\
-# ], 5, parent=game)
+DelayedSpawn([\
+	Dropship(x=680, y=-100, sy=2),\
+	Dropship(x=640, y=-120, sy=2),\
+	Dropship(x=720, y=-120, sy=2),\
+	Dropship(x=680, y=-180, sy=2),\
+], 5, parent=game)
 
-# DelayedSpawn([\
-# 	Dropship(x=280, y=-100, sy=2),\
-# 	Dropship(x=240, y=-120, sy=2),\
-# 	Dropship(x=320, y=-120, sy=2),\
-# 	Dropship(x=280, y=-180, sy=2),\
-# ], 6, parent=game)
+DelayedSpawn([\
+	Dropship(x=280, y=-100, sy=2),\
+	Dropship(x=240, y=-120, sy=2),\
+	Dropship(x=320, y=-120, sy=2),\
+	Dropship(x=280, y=-180, sy=2),\
+], 6, parent=game)
 
-
-
-# DelayedSpawn([\
-# 	Dropship(x=480, y=-100, sy=2),\
-# 	Dropship(x=440, y=-120, sy=2),\
-# 	Dropship(x=520, y=-120, sy=2),\
-# 	Dropship(x=480, y=-180, sy=2),\
-# ], 12, parent=game)
-
-# DelayedSpawn([\
-# 	DropshipFiring(x=40, y=-40, sy=4),\
-# 	DropshipFiring(x=60, y=-80, sy=4),\
-# 	DropshipFiring(x=80, y=-120, sy=4),\
-# ], 12, parent=game)
-# DelayedSpawn([\
-# 	DropshipFiring(x=920, y=-40, sy=4),\
-# 	DropshipFiring(x=900, y=-80, sy=4),\
-# 	DropshipFiring(x=880, y=-120, sy=4),\
-# ], 14, parent=game)
-
-# DelayedSpawn([\
-# 	Dropship(x=480, y=-100, sy=2),\
-# 	Dropship(x=440, y=-120, sy=2),\
-# 	Dropship(x=520, y=-120, sy=2),\
-# 	Dropship(x=480, y=-180, sy=2),\
-# ], 16, parent=game)
-
-# DelayedSpawn([\
-# 	DropshipFiring(x=40, y=-40, sy=4),\
-# 	DropshipFiring(x=60, y=-80, sy=4),\
-# 	DropshipFiring(x=80, y=-120, sy=4),\
-# ], 16, parent=game)
-# DelayedSpawn([\
-# 	DropshipFiring(x=920, y=-40, sy=4),\
-# 	DropshipFiring(x=900, y=-80, sy=4),\
-# 	DropshipFiring(x=880, y=-120, sy=4),\
-# ], 18, parent=game)
-
-# DelayedSpawn([\
-# 	Dropship(x=480, y=-100, sy=2),\
-# 	Dropship(x=440, y=-120, sy=2),\
-# 	Dropship(x=520, y=-120, sy=2),\
-# 	Dropship(x=480, y=-180, sy=2),\
-# ], 20, parent=game)
-
-# DelayedSpawn([\
-# 	DropshipFiring(x=40, y=-40, sy=4),\
-# 	DropshipFiring(x=60, y=-80, sy=4),\
-# 	DropshipFiring(x=80, y=-120, sy=4),\
-# ], 20, parent=game)
-# DelayedSpawn([\
-# 	DropshipFiring(x=920, y=-40, sy=4),\
-# 	DropshipFiring(x=900, y=-80, sy=4),\
-# 	DropshipFiring(x=880, y=-120, sy=4),\
-# ], 22, parent=game)
-
-# DelayedSpawn([\
-# 	Dropship(x=480, y=-100, sy=2),\
-# 	Dropship(x=440, y=-120, sy=2),\
-# 	Dropship(x=520, y=-120, sy=2),\
-# 	Dropship(x=480, y=-180, sy=2),\
-# ], 24, parent=game)
-
-# DelayedSpawn([\
-# 	DropshipFiring(x=40, y=-40, sy=4),\
-# 	DropshipFiring(x=60, y=-80, sy=4),\
-# 	DropshipFiring(x=80, y=-120, sy=4),\
-# ], 24, parent=game)
-# DelayedSpawn([\
-# 	DropshipFiring(x=920, y=-40, sy=4),\
-# 	DropshipFiring(x=900, y=-80, sy=4),\
-# 	DropshipFiring(x=880, y=-120, sy=4),\
-# ], 26, parent=game)
-
-
-
-
-# DelayedSpawn([\
-# 	LightFighter(x=500, y=-40, sy=5),\
-# 	LightFighter(x=500, y=-80, sy=5),\
-# 	LightFighter(x=500, y=-120, sy=5),\
-# ], 30, parent=game)
-
-# DelayedSpawn([\
-# 	LightFighter(x=300, y=-40, sy=5),\
-# 	LightFighter(x=300, y=-80, sy=5),\
-# 	LightFighter(x=300, y=-120, sy=5),\
-# ], 32, parent=game)
-
-# DelayedSpawn([\
-# 	LightFighter(x=700, y=-40, sy=5),\
-# 	LightFighter(x=700, y=-80, sy=5),\
-# 	LightFighter(x=700, y=-120, sy=5),\
-# ], 32, parent=game)
-
-
-
-# DelayedSpawn([\
-# 	LightFighter(x=500, y=-40, sy=5),\
-# 	LightFighter(x=500, y=-80, sy=5),\
-# 	LightFighter(x=500, y=-120, sy=5),\
-# ], 35, parent=game)
-
-# DelayedSpawn([\
-# 	LightFighter(x=300, y=-40, sy=5),\
-# 	LightFighter(x=300, y=-80, sy=5),\
-# 	LightFighter(x=300, y=-120, sy=5),\
-# ], 37, parent=game)
-
-# DelayedSpawn([\
-# 	LightFighter(x=700, y=-40, sy=5),\
-# 	LightFighter(x=700, y=-80, sy=5),\
-# 	LightFighter(x=700, y=-120, sy=5),\
-# ], 37, parent=game)
-
-
-
-
-# DelayedSpawn([\
-# 	TroopTransport(x=500, y=-120, sy=2),\
-# 	TroopTransport(x=100, y=-160, sy=2),\
-# 	TroopTransport(x=900, y=-200, sy=2),\
-# ], 40, parent=game)
-
-# DelayedSpawn([\
-# 	TroopTransport(x=500, y=-140, sy=2),\
-# 	LightFighter(x=500, y=-40, sy=2),\
-# 	LightFighter(x=400, y=-60, sy=2),\
-# 	LightFighter(x=600, y=-60, sy=2),\
-# ], 50, parent=game)
-
-# DelayedSpawn([\
-# 	TroopTransport(x=300, y=-140, sy=2),\
-# 	LightFighter(x=300, y=-40, sy=2),\
-# 	LightFighter(x=200, y=-60, sy=2),\
-# 	LightFighter(x=400, y=-60, sy=2),\
-# ], 55, parent=game)
-
-# DelayedSpawn([\
-# 	TroopTransport(x=700, y=-140, sy=2),\
-# 	LightFighter(x=700, y=-40, sy=2),\
-# 	LightFighter(x=600, y=-60, sy=2),\
-# 	LightFighter(x=800, y=-60, sy=2),\
-# ], 60, parent=game)
 
 
 DelayedSpawn([\
-	LightSuppressionCrystal(x=500, y=-40, sy=1)\
-], 1, parent=game)
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 12, parent=game)
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=60, y=-80, sy=4),\
+	DropshipFiring(x=80, y=-120, sy=4),\
+], 12, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=900, y=-80, sy=4),\
+	DropshipFiring(x=880, y=-120, sy=4),\
+], 14, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 16, parent=game)
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=60, y=-80, sy=4),\
+	DropshipFiring(x=80, y=-120, sy=4),\
+], 16, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=900, y=-80, sy=4),\
+	DropshipFiring(x=880, y=-120, sy=4),\
+], 18, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 20, parent=game)
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=60, y=-80, sy=4),\
+	DropshipFiring(x=80, y=-120, sy=4),\
+], 20, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=900, y=-80, sy=4),\
+	DropshipFiring(x=880, y=-120, sy=4),\
+], 22, parent=game)
+
+DelayedSpawn([\
+	Dropship(x=480, y=-100, sy=2),\
+	Dropship(x=440, y=-120, sy=2),\
+	Dropship(x=520, y=-120, sy=2),\
+	Dropship(x=480, y=-180, sy=2),\
+], 24, parent=game)
+
+DelayedSpawn([\
+	DropshipFiring(x=40, y=-40, sy=4),\
+	DropshipFiring(x=60, y=-80, sy=4),\
+	DropshipFiring(x=80, y=-120, sy=4),\
+], 24, parent=game)
+DelayedSpawn([\
+	DropshipFiring(x=920, y=-40, sy=4),\
+	DropshipFiring(x=900, y=-80, sy=4),\
+	DropshipFiring(x=880, y=-120, sy=4),\
+], 26, parent=game)
+
+
+
+
+DelayedSpawn([\
+	LightFighter(x=500, y=-40, sy=5),\
+	LightFighter(x=500, y=-80, sy=5),\
+	LightFighter(x=500, y=-120, sy=5),\
+], 30, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=5),\
+	LightFighter(x=300, y=-80, sy=5),\
+	LightFighter(x=300, y=-120, sy=5),\
+], 32, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=700, y=-40, sy=5),\
+	LightFighter(x=700, y=-80, sy=5),\
+	LightFighter(x=700, y=-120, sy=5),\
+], 32, parent=game)
+
+
+
+DelayedSpawn([\
+	LightFighter(x=500, y=-40, sy=5),\
+	LightFighter(x=500, y=-80, sy=5),\
+	LightFighter(x=500, y=-120, sy=5),\
+], 35, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=5),\
+	LightFighter(x=300, y=-80, sy=5),\
+	LightFighter(x=300, y=-120, sy=5),\
+], 37, parent=game)
+
+DelayedSpawn([\
+	LightFighter(x=700, y=-40, sy=5),\
+	LightFighter(x=700, y=-80, sy=5),\
+	LightFighter(x=700, y=-120, sy=5),\
+], 37, parent=game)
+
+
+
+
+DelayedSpawn([\
+	TroopTransport(x=500, y=-120, sy=2),\
+	TroopTransport(x=100, y=-160, sy=2),\
+	TroopTransport(x=900, y=-200, sy=2),\
+], 40, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=500, y=-140, sy=2),\
+	LightFighter(x=500, y=-40, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+], 50, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=300, y=-140, sy=2),\
+	LightFighter(x=300, y=-40, sy=2),\
+	LightFighter(x=200, y=-60, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+], 55, parent=game)
+
+DelayedSpawn([\
+	TroopTransport(x=700, y=-140, sy=2),\
+	LightFighter(x=700, y=-40, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+	LightFighter(x=800, y=-60, sy=2),\
+], 60, parent=game)
+
+
+
+
+DelayedSpawn([\
+	LightSuppressionCrystal(x=500, y=-60, sy=0.5)\
+], 65, parent=game)
+
+
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=2),\
+	LightFighter(x=200, y=-60, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+	LightFighter(x=700, y=-40, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+	LightFighter(x=800, y=-60, sy=2),\
+], 72, parent=game)
+
+
+DelayedSpawn([\
+	LightSuppressionCrystal(x=300, y=-60, sy=0.5)\
+], 76, parent=game)
+
+
+DelayedSpawn([\
+	LightFighter(x=700, y=-40, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+	LightFighter(x=800, y=-60, sy=2),\
+], 80, parent=game)
+
+
+DelayedSpawn([\
+	LightSuppressionCrystal(x=700, y=-60, sy=0.5)\
+], 84, parent=game)
+
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=2),\
+	LightFighter(x=200, y=-60, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+], 88, parent=game)
+
+
+DelayedSpawn([\
+	LightFighter(x=300, y=-40, sy=2),\
+	LightFighter(x=200, y=-60, sy=2),\
+	LightFighter(x=400, y=-60, sy=2),\
+	LightFighter(x=700, y=-40, sy=2),\
+	LightFighter(x=600, y=-60, sy=2),\
+	LightFighter(x=800, y=-60, sy=2),\
+], 92, parent=game)

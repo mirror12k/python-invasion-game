@@ -213,16 +213,16 @@ class TroopTransport(EnemyShipEntity):
 class LightSuppressionCrystal(EnemyShipEntity):
 	def __init__(self, *args, **kwargs):
 		super(LightSuppressionCrystal, self).__init__(
-			bounding_box=pygame.Rect(4, 4, 10, 10),
-			filepath='dropship_down.png',
-			health=150,
+			bounding_box=pygame.Rect(9, 18, 42, 26),
+			filepath='light_suppression_crystal.png',
+			health=500,
 			max_reload=240,
 			*args, **kwargs)
 		self.firing_laser = 0
 		self.laser_target = None
 
 		self.charge_duration = 30
-		self.laser_duration = 200
+		self.laser_duration = 60
 
 		self.charging_laser = 0
 		self.firing_laser = 0
@@ -386,7 +386,7 @@ class InvasionGameContainer(telekinesis.gamecore.GameContainer):
 	def __init__(self):
 		super(InvasionGameContainer, self).__init__(sizeX=1000, sizeY=640)
 		self.screen_bounds = pygame.Rect(0, 0, self.sizeX, self.sizeY)
-		self.active_bounds = pygame.Rect(20, 20, self.sizeX - 20, self.sizeY - 20)
+		self.active_bounds = pygame.Rect(40, 40, self.sizeX - 40, self.sizeY - 40)
 		self.out_of_bounds = pygame.Rect(-200, -200, self.sizeX + 200, self.sizeY + 200)
 		self.player_bullet_container = PlayerBulletContainer(parent=self)
 		self.enemy_bullet_container = EnemyBulletContainer(parent=self)
