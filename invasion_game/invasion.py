@@ -47,14 +47,6 @@ class CollidingEntity(telekinesis.graphics.ScreenEntity):
 		self.bounding_box_y = float(self.bounding_box.y)
 	def update(self):
 		self.move(self.sx, self.sy)
-		# self.x += float(self.sx)
-		# self.y += float(self.sy)
-		# self.bounding_box_x += float(self.sx)
-		# self.bounding_box_y += float(self.sy)
-		# self.rect.x = int(self.x)
-		# self.rect.y = int(self.y)
-		# self.bounding_box.x = int(self.bounding_box_x)
-		# self.bounding_box.y = int(self.bounding_box_y)
 	def move(self, x=0, y=0):
 		self.x += float(x)
 		self.y += float(y)
@@ -368,16 +360,24 @@ class PlayerShip(ShipEntity):
 
 
 class DebugPrinter(telekinesis.gamecore.Entity):
+	def __init__(self, *args, **kwargs):
+		super(DebugPrinter, self).__init__(*args, **kwargs)
+		self.zIndex = 1000000
 	def draw(self, screen):
-			game = self.parent.getGame()
-			entity_count = len(game.entities)
-			bullet_count = len(game.enemy_bullet_container.entities) + len(game.player_bullet_container.entities)
-			debug_text1 = "fps: {}".format(game.real_fps)
-			debug_text2 = "entities: {} ({} bullets)".format(entity_count, bullet_count)
-			debug_text1 = game.font.render(debug_text1, 1, (255,255,0))
-			debug_text2 = game.font.render(debug_text2, 1, (255,255,0))
-			screen.blit(debug_text1, (4,4))
-			screen.blit(debug_text2, (4,24))
+		game = self.parent.getGame()
+		entity_count = len(game.entities)
+		bullet_count = len(game.enemy_bullet_container.entities) + len(game.player_bullet_container.entities)
+		debug_text1 = "fps: {}".format(game.real_fps)
+		debug_text2 = "entities: {} ({} bullets)".format(entity_count, bullet_count)
+		debug_text1 = game.font.render(debug_text1, 1, (255,255,0))
+		debug_text2 = game.font.render(debug_text2, 1, (255,255,0))
+		screen.blit(debug_text1, (4,4))
+		screen.blit(debug_text2, (4,24))
+
+		for ent in game.entities:
+			if isinstance(ent, CollidingEntity):
+				pygame.draw.rect(screen, (255, 0, 0), ent.bounding_box, 2)
+
 
 
 
@@ -395,8 +395,9 @@ class InvasionGameContainer(telekinesis.gamecore.GameContainer):
 	def draw(self, screen):
 		screen.fill((0,0,0))
 		super(InvasionGameContainer, self).draw(screen)
-	# def update(self):
-		# super(InvasionGameContainer, self).update()
+	def update(self):
+		super(InvasionGameContainer, self).update()
+		self.sortEntities()
 	def spawn_player(self, *args):
 		self.player = PlayerShip(x=480, y=580, parent=self)
 	def on_player_death(self):
